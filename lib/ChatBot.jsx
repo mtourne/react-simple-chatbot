@@ -265,7 +265,16 @@ class ChatBot extends Component {
       });
     }
 
-    const { cache, cacheName } = this.props;
+    const { cache, cacheName, transitionCallback } = this.props;
+
+    // XX (mtourne): this could be how we can impact current steps
+    // and rendered steps
+    if (transitionCallback) {
+      transitionCallback({
+        currentStep,
+        previousSteps,
+      });
+    }
     if (cache) {
       setTimeout(() => {
         storage.setData(cacheName, {
@@ -579,6 +588,7 @@ class ChatBot extends Component {
 }
 
 ChatBot.propTypes = {
+  transitionCallback: PropTypes.func,
   avatarStyle: PropTypes.object,
   botAvatar: PropTypes.string,
   botDelay: PropTypes.number,
@@ -614,6 +624,7 @@ ChatBot.propTypes = {
 };
 
 ChatBot.defaultProps = {
+  transitionCallback: undefined,
   avatarStyle: {},
   botDelay: 1000,
   bubbleStyle: {},

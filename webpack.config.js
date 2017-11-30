@@ -18,12 +18,15 @@ module.exports = {
   plugins: [],
   devtool: 'source-map',
   module: {
-    rules: [
+    loaders: [
       {
         test: /\.jsx?$/,
+        loader: 'babel-loader',
         exclude: /(node_modules|bower_components)/,
-        use: ['babel-loader'],
-      },
-    ],
-  },
+        // adding stage-0 to gain static in classes
+        // https://stackoverflow.com/questions/35517245/error-missing-class-properties-transform
+        query: {presets: ['es2015', 'react', 'stage-0']}
+      }
+    ]
+  }
 };
